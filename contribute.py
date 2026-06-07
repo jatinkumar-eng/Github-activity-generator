@@ -132,7 +132,11 @@ def main():
     os.mkdir(directory)
     os.chdir(directory)
 
-    run(["git", "init", "-b", "main"])
+    try:
+        run(["git", "push", "-u", "origin", "main"])
+    except subprocess.CalledProcessError:
+        print("Push failed. Remote repository already contains commits.")
+        print("Run: git pull origin main --allow-unrelated-histories")
 
     if args.user_name:
         run(["git", "config", "user.name", args.user_name])
